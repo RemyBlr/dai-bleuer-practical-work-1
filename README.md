@@ -8,4 +8,4 @@ Basic readme, will be completed later
 ``./mvnw package``
 
 ## Run the project
-``java -jar target/java-intellij-idea-and-maven-1.0-SNAPSHOT.jar``
+``java -jar target/dai-bleuer-practical-work-1-1.0-SNAPSHOT.jar``
