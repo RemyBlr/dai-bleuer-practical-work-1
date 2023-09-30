@@ -1,10 +1,11 @@
 package ch.heigvd;
 
 import picocli.CommandLine;
-import java.util.concurrent.Callable;
+import java.io.*;
+import java.nio.charset.Charset;
 
-@CommandLine.Command(name="commands", description="My custom CLI")
-public class Commands {
+@CommandLine.Command(name="Cli", description="My custom CLI")
+public class Cli {
 
     @CommandLine.Option(names = {"-h", "--help"}, description = "Information about the CLI")
     private String optHelp;
@@ -16,5 +17,5 @@ public class Commands {
     private String optOutputFile;
 
     @CommandLine.Option(names = {"-e", "--encoding"}, description = "File encoding")
-    private String optEncoding;
+    private Charset optEncoding;
 }
