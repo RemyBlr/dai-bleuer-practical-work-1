@@ -1,10 +1,18 @@
 package ch.heigvd;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class ReadWriteFiles {
     public static String readFile(String inputFileName) throws IOException {
-        FileReader reader = new FileReader(inputFileName);
+
+        Charset encoding = StandardCharsets.UTF_8;
+        if(Commands.optInputFileEncoding != null) {
+            encoding = Commands.optInputFileEncoding;
+        }
+
+        FileReader reader = new FileReader(inputFileName, encoding);
         BufferedReader bufferedReader = new BufferedReader(reader);
 
         StringBuilder sb = new StringBuilder();
@@ -20,7 +28,12 @@ public class ReadWriteFiles {
     }
 
     public static void writeFile(String data, String outputFileName) throws IOException {
-        FileWriter writer = new FileWriter(outputFileName);
+        Charset encoding = StandardCharsets.UTF_8;
+        if(Commands.optOutputFileEncoding != null) {
+            encoding = Commands.optOutputFileEncoding;
+        }
+
+        FileWriter writer = new FileWriter(outputFileName, encoding);
         writer.write(data);
         writer.close();
     }

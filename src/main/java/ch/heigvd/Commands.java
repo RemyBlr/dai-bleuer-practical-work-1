@@ -1,34 +1,37 @@
 package ch.heigvd;
 
-import picocli.CommandLine;
-
 import java.io.*;
 import java.nio.charset.Charset;
+import picocli.CommandLine;
 
-@CommandLine.Command(name="commands", description="My custom CLI")
-class Commands implements Runnable {
+@CommandLine.Command(name="commands", description="My custom CLI", version = "1.0")
+public class Commands implements Runnable {
 
-    @CommandLine.Option(names = {"-h", "--help"}, description = "Information about the CLI")
-    private String optHelp;
+    @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "display this help message")
+    boolean usageHelpRequested;
+
+    @CommandLine.Option(names = { "-V", "--version" }, versionHelp = true, description = "print version information and exit")
+    boolean versionRequested;
 
     @CommandLine.Option(names = {"-i", "--input"}, required = true, description = "Input file")
     public static String optInputFile;
 
     @CommandLine.Option(names = {"-ie", "--input-encoding"}, description = "Input file encoding")
-    private Charset optInputFileEncoding;
+    public static Charset optInputFileEncoding;
 
     @CommandLine.Option(names = {"-o", "--output"}, required = true, description = "Output file")
     public static String optOutputFile;
 
     @CommandLine.Option(names = {"-oe", "--output-encoding"}, description = "Output file encoding")
-    private Charset optOutputFileEncoding;
+    public static Charset optOutputFileEncoding;
 
-    @CommandLine.Option(names = {"uppercase"}, description = "Converst input file to uppercase")
-    private boolean optUppercase;
+    @CommandLine.Option(names = "uppercase", description = "Converst input file to uppercase")
+    boolean optUppercase;
 
-    @CommandLine.Option(names = {"lowercase"}, description = "Converts input file to lowercase")
-    private boolean optLowercase;
+    @CommandLine.Option(names = "lowercase", description = "Converts input file to lowercase")
+    boolean optLowercase;
 
+    @Override
     public void run() {
         if(optLowercase) {
             try {
