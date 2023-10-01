@@ -24,4 +24,18 @@ public class ReadWriteFiles {
         writer.write(data);
         writer.close();
     }
+
+    public static void lowerToUpper() throws IOException {
+        String input = readFile(Commands.optInputFile);
+        String output = input.toUpperCase();
+        writeFile(output, Commands.optOutputFile);
+    }
+
+    public static void upperToLower() throws IOException {
+        String input = readFile(Commands.optInputFile);
+        String output = input.toLowerCase();
+        writeFile(output, Commands.optOutputFile);
+    }
+
+
 }

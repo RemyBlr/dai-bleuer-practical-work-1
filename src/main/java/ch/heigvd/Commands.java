@@ -11,27 +11,41 @@ class Commands implements Runnable {
     @CommandLine.Option(names = {"-h", "--help"}, description = "Information about the CLI")
     private String optHelp;
 
-    @CommandLine.Option(names = {"-f", "--file"}, description = "Input file")
+    @CommandLine.Option(names = {"-i", "--input"}, required = true, description = "Input file")
     public static String optInputFile;
 
-    @CommandLine.Option(names = {"-o", "--output"}, description = "Output file")
+    @CommandLine.Option(names = {"-ie", "--input-encoding"}, description = "Input file encoding")
+    private Charset optInputFileEncoding;
+
+    @CommandLine.Option(names = {"-o", "--output"}, required = true, description = "Output file")
     public static String optOutputFile;
 
-    @CommandLine.Option(names = {"-e", "--encoding"}, description = "File encoding")
-    private Charset optEncoding;
+    @CommandLine.Option(names = {"-oe", "--output-encoding"}, description = "Output file encoding")
+    private Charset optOutputFileEncoding;
+
+    @CommandLine.Option(names = {"uppercase"}, description = "Converst input file to uppercase")
+    private boolean optUppercase;
+
+    @CommandLine.Option(names = {"lowercase"}, description = "Converts input file to lowercase")
+    private boolean optLowercase;
 
     public void run() {
-        String input = null;
-        try {
-            input = ReadWriteFiles.readFile(Commands.optInputFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(optLowercase) {
+            try {
+                ReadWriteFiles.upperToLower();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-        String output = input.toUpperCase();
-        try {
-            ReadWriteFiles.writeFile(output, Commands.optOutputFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        else if (optUppercase) {
+            try {
+                ReadWriteFiles.lowerToUpper();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Invalid option");
         }
     }
 }
