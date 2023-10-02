@@ -26,49 +26,23 @@ public class Commands implements Runnable {
     public static Charset optOutputFileEncoding;
 
     @CommandLine.Option(names = "uppercase", description = "Converst input file to uppercase")
-    boolean optUppercase;
+    static boolean optUppercase;
 
     @CommandLine.Option(names = "lowercase", description = "Converts input file to lowercase")
-    boolean optLowercase;
+    static boolean optLowercase;
 
     @CommandLine.Option(names = "alternate", description = "Alternate lower and uppercase letters")
-    boolean optAlternate;
+    static boolean optAlternate;
 
     @CommandLine.Option(names = "reverse", description = "Reverse the input file")
-    boolean optReverse;
+    static boolean optReverse;
 
     @Override
     public void run() {
-        if(optLowercase) {
-            try {
-                ReadWriteFiles.upperToLower();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        else if (optUppercase) {
-            try {
-                ReadWriteFiles.lowerToUpper();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        else if (optReverse) {
-            try {
-                ReadWriteFiles.reverse();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        else if (optAlternate) {
-            try {
-                ReadWriteFiles.alternate();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        else {
-            throw new IllegalArgumentException("Invalid option");
+        try {
+            ReadWriteFiles.processFile();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

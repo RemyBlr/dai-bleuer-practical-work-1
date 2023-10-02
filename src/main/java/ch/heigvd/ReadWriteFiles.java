@@ -41,34 +41,35 @@ public class ReadWriteFiles {
         writer.close();
     }
 
-    public static void lowerToUpper() throws IOException {
+    public static void processFile() throws IOException {
         String input = readFile(Commands.optInputFile);
-        String output = input.toUpperCase();
-        writeFile(output, Commands.optOutputFile);
-    }
+        String output = "";
 
-    public static void upperToLower() throws IOException {
-        String input = readFile(Commands.optInputFile);
-        String output = input.toLowerCase();
-        writeFile(output, Commands.optOutputFile);
-    }
-
-    public static void reverse() throws IOException {
-        String input = readFile(Commands.optInputFile);
-        String output = new StringBuilder(input).reverse().toString();
-        writeFile(output, Commands.optOutputFile);
-    }
-
-    public static void alternate() throws IOException {
-        String input = readFile(Commands.optInputFile);
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < input.length(); i++) {
-            if (i % 2 == 0) {
-                output.append(Character.toUpperCase(input.charAt(i)));
-            } else {
-                output.append(Character.toLowerCase(input.charAt(i)));
-            }
+        if (Commands.optUppercase) {
+            output = input.toUpperCase();
         }
-        writeFile(output.toString(), Commands.optOutputFile);
+        else if (Commands.optLowercase) {
+            output = input.toLowerCase();
+        }
+        else if (Commands.optReverse) {
+            output = new StringBuilder(input).reverse().toString();
+        }
+        else if (Commands.optAlternate) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < input.length(); i++) {
+                if (i % 2 == 0) {
+                    sb.append(Character.toUpperCase(input.charAt(i)));
+                } else {
+                    sb.append(Character.toLowerCase(input.charAt(i)));
+                }
+            }
+            output = sb.toString();
+        }
+        else {
+            throw new IllegalArgumentException("Invalid operation");
+        }
+
+        writeFile(output, Commands.optOutputFile);
     }
+
 }
