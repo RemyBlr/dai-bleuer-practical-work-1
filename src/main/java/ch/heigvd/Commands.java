@@ -39,9 +39,12 @@ public class Commands implements Runnable {
 
     @Override
     public void run() {
+        // Try to process the file
         try {
             ReadWriteFiles.processFile();
-        } catch (IOException e) {
+        }
+        // Catch the exception thrown by processFile()
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
