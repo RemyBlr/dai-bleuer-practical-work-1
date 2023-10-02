@@ -5,9 +5,12 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class ReadWriteFiles {
+
+    private static final Charset ENCODING = StandardCharsets.UTF_8;
+
     public static String readFile(String inputFileName) throws IOException {
 
-        Charset encoding = StandardCharsets.UTF_8;
+        Charset encoding = ENCODING;
         if(Commands.optInputFileEncoding != null) {
             encoding = Commands.optInputFileEncoding;
         }
@@ -28,7 +31,7 @@ public class ReadWriteFiles {
     }
 
     public static void writeFile(String data, String outputFileName) throws IOException {
-        Charset encoding = StandardCharsets.UTF_8;
+        Charset encoding = ENCODING;
         if(Commands.optOutputFileEncoding != null) {
             encoding = Commands.optOutputFileEncoding;
         }
@@ -50,5 +53,22 @@ public class ReadWriteFiles {
         writeFile(output, Commands.optOutputFile);
     }
 
+    public static void reverse() throws IOException {
+        String input = readFile(Commands.optInputFile);
+        String output = new StringBuilder(input).reverse().toString();
+        writeFile(output, Commands.optOutputFile);
+    }
 
+    public static void alternate() throws IOException {
+        String input = readFile(Commands.optInputFile);
+        StringBuilder output = new StringBuilder();
+        for (int i = 0; i < input.length(); i++) {
+            if (i % 2 == 0) {
+                output.append(Character.toUpperCase(input.charAt(i)));
+            } else {
+                output.append(Character.toLowerCase(input.charAt(i)));
+            }
+        }
+        writeFile(output.toString(), Commands.optOutputFile);
+    }
 }

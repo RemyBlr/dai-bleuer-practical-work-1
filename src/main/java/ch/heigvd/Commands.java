@@ -31,6 +31,12 @@ public class Commands implements Runnable {
     @CommandLine.Option(names = "lowercase", description = "Converts input file to lowercase")
     boolean optLowercase;
 
+    @CommandLine.Option(names = "alternate", description = "Alternate lower and uppercase letters")
+    boolean optAlternate;
+
+    @CommandLine.Option(names = "reverse", description = "Reverse the input file")
+    boolean optReverse;
+
     @Override
     public void run() {
         if(optLowercase) {
@@ -43,6 +49,20 @@ public class Commands implements Runnable {
         else if (optUppercase) {
             try {
                 ReadWriteFiles.lowerToUpper();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else if (optReverse) {
+            try {
+                ReadWriteFiles.reverse();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else if (optAlternate) {
+            try {
+                ReadWriteFiles.alternate();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
