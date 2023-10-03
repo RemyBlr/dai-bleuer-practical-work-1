@@ -3,15 +3,11 @@ package ch.heigvd;
 import java.io.*;
 import java.nio.charset.Charset;
 import picocli.CommandLine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CommandLine.Command(name="commands", description="My custom CLI", version = "1.0")
 public class Commands implements Runnable {
-
-    @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "display this help message")
-    boolean usageHelpRequested;
-
-    @CommandLine.Option(names = { "-V", "--version" }, versionHelp = true, description = "print version information and exit")
-    boolean versionRequested;
 
     @CommandLine.Option(names = {"-i", "--input"}, required = true, description = "Input file")
     public static String optInputFile;
@@ -39,6 +35,9 @@ public class Commands implements Runnable {
 
     @Override
     public void run() {
+        //Logger logger = LoggerFactory.getLogger(Main.class);
+        //logger.debug("Here");
+
         // Try to process the file
         try {
             ReadWriteFiles.processFile();
