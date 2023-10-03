@@ -2,9 +2,9 @@ package ch.heigvd;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.List;
+
 import picocli.CommandLine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @CommandLine.Command(name="commands", description="My custom CLI", version = "1.0")
 public class Commands implements Runnable {
@@ -21,30 +21,52 @@ public class Commands implements Runnable {
     @CommandLine.Option(names = {"-oe", "--output-encoding"}, description = "Output file encoding")
     public static Charset optOutputFileEncoding;
 
-    @CommandLine.Option(names = "uppercase", description = "Converst input file to uppercase")
-    static boolean optUppercase;
-
-    @CommandLine.Option(names = "lowercase", description = "Converts input file to lowercase")
-    static boolean optLowercase;
-
-    @CommandLine.Option(names = "alternate", description = "Alternate lower and uppercase letters")
-    static boolean optAlternate;
-
-    @CommandLine.Option(names = "reverse", description = "Reverse the input file")
-    static boolean optReverse;
+    @CommandLine.Parameters(description = "Operations to perform (e.g., 'uppercase', 'lowercase', 'reverse', 'alternate')")
+    private List<String> operations;
 
     @Override
     public void run() {
-        //Logger logger = LoggerFactory.getLogger(Main.class);
-        //logger.debug("Here");
-
         // Try to process the file
         try {
-            ReadWriteFiles.processFile();
+            String input = ReadWriteFiles.readFile(optInputFile);
+            String output = processFile(input);
+            ReadWriteFiles.writeFile(output, optOutputFile);
         }
         // Catch the exception thrown by processFile()
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String processFile(String input) {
+        // Loop on all the parameters in the command line
+        for (String operation : operations) {
+            if (operation.equals("uppercase")) {
+                input = input.toUpperCase();
+            }
+            else if (operation.equals("lowercase")) {
+                input = input.toLowerCase();
+            }
+            else if (operation.equals("reverse")) {
+                input = new StringBuilder(input).reverse().toString();
+            }
+            else if (operation.equals("alternate")) {
+                // StringBuilder is used to concatenate strings
+                StringBuilder sb = new StringBuilder();
+                // Loop on the input string and alternate between upper and lower case
+                for (int i = 0; i < input.length(); i++) {
+                    if (i % 2 == 0) {
+                        sb.append(Character.toUpperCase(input.charAt(i)));
+                    } else {
+                        sb.append(Character.toLowerCase(input.charAt(i)));
+                    }
+                }
+                input = sb.toString();
+            }
+            else {
+                throw new IllegalArgumentException("Invalid operation");
+            }
+        }
+        return input;
     }
 }
