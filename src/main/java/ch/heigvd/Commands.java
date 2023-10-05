@@ -3,7 +3,6 @@ package ch.heigvd;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
-
 import picocli.CommandLine;
 
 @CommandLine.Command(name="commands", description="My custom CLI", version = "1.0")
@@ -26,6 +25,8 @@ public class Commands implements Runnable {
 
     @Override
     public void run() {
+        long startTime = System.currentTimeMillis();
+
         // Try to process the file
         try {
             String input = ReadWriteFiles.readFile(optInputFile);
@@ -36,5 +37,12 @@ public class Commands implements Runnable {
         catch (IOException e) {
             System.err.println("The error is : " + e.getMessage());
         }
+
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime; // in milliseconds
+
+        // Convert to seconds
+        double executionTimeSeconds = executionTime / 1000.0;
+        System.out.println("File was processed in " + executionTimeSeconds + " seconds.");
     }
 }
