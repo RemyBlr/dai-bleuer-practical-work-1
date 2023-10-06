@@ -26,7 +26,7 @@ public class ReadWriteFiles {
         // Read the file line by line
         while ((line = bufferedReader.readLine()) != null) {
             sb.append(line);
-            //sb.append("\n");
+            sb.append("\n");
         }
 
         // Release resources

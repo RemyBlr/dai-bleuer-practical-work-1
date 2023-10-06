@@ -5,8 +5,21 @@ import java.nio.charset.Charset;
 import java.util.List;
 import picocli.CommandLine;
 
-@CommandLine.Command(name="commands", description="My custom CLI", version = "1.0")
+@CommandLine.Command(name="commands",
+        version = "1.0",
+        description="Various operations on files (uppercase, lowercase, reverse, alternate)",
+        descriptionHeading = "%n@|bold,underline Description|@:%n%n",
+        optionListHeading = "%n@|bold,underline Options|@:%n%n",
+        parameterListHeading = "%n@|bold,underline Parameters|@:%n%n",
+        commandListHeading = "%n@|bold,underline Commands|@:%n%n")
 public class Commands implements Runnable {
+
+    // I need the version and help options so it can be displayed
+    @CommandLine.Option(names = {"-V", "--version"}, versionHelp = true, description = "display version info")
+    boolean versionInfoRequested;
+
+    @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "display this help message")
+    boolean usageHelpRequested;
 
     @CommandLine.Option(names = {"-i", "--input"}, required = true, description = "Input file")
     public String optInputFile;

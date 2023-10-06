@@ -2,6 +2,11 @@ package ch.heigvd;
 
 public class ProcessFiles {
     public static String processFile(String input) {
+        // If no operation is specified, return the input
+        if(Commands.operations == null) {
+            return input;
+        }
+
         // Loop on all the parameters in the command line
         for (String operation : Commands.operations) {
             if (operation.equals("uppercase")) {
