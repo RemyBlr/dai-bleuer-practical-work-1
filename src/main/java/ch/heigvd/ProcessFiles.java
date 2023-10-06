@@ -16,7 +16,7 @@ public class ProcessFiles {
                 input = input.toLowerCase();
             }
             else if (operation.equals("reverse")) {
-                input = new StringBuilder(input).reverse().toString();
+                input = new StringBuilder(input).reverse().deleteCharAt(0).append("\n").toString();
             }
             else if (operation.equals("alternate")) {
                 // StringBuilder is used to concatenate strings
