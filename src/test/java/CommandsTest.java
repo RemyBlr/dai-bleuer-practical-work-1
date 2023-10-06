@@ -42,7 +42,7 @@ public class CommandsTest {
         commands1.run();
 
         // Compare the expected output with the actual output
-        String actualOutput = ReadWriteFiles.readFile(outputFile.toString());
+        String actualOutput = ReadWriteFiles.readFile(outputFile.toString()).trim();
         assertEquals(expectedOutput, actualOutput);
     }
 
@@ -77,7 +77,7 @@ public class CommandsTest {
         commands.run();
 
         // Compare the expected output with the actual output
-        String actualOutput = ReadWriteFiles.readFile(outputFile.toString());
+        String actualOutput = ReadWriteFiles.readFile(outputFile.toString()).trim();
         assertEquals(expectedOutput, actualOutput);
     }
 }

@@ -3,11 +3,23 @@ package ch.heigvd;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.List;
-
 import picocli.CommandLine;
 
-@CommandLine.Command(name="commands", description="My custom CLI", version = "1.0")
+@CommandLine.Command(name="commands",
+        version = "1.0",
+        description="Various operations on files (uppercase, lowercase, reverse, alternate)",
+        descriptionHeading = "%n@|bold,underline Description|@:%n%n",
+        optionListHeading = "%n@|bold,underline Options|@:%n%n",
+        parameterListHeading = "%n@|bold,underline Parameters|@:%n%n",
+        commandListHeading = "%n@|bold,underline Commands|@:%n%n")
 public class Commands implements Runnable {
+
+    // I need the version and help options so it can be displayed
+    @CommandLine.Option(names = {"-V", "--version"}, versionHelp = true, description = "display version info")
+    boolean versionInfoRequested;
+
+    @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "display this help message")
+    boolean usageHelpRequested;
 
     @CommandLine.Option(names = {"-i", "--input"}, required = true, description = "Input file")
     public String optInputFile;
@@ -26,6 +38,8 @@ public class Commands implements Runnable {
 
     @Override
     public void run() {
+        long startTime = System.currentTimeMillis();
+
         // Try to process the file
         try {
             String input = ReadWriteFiles.readFile(optInputFile);
@@ -36,5 +50,12 @@ public class Commands implements Runnable {
         catch (IOException e) {
             System.err.println("The error is : " + e.getMessage());
         }
+
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime; // in milliseconds
+
+        // Convert to seconds
+        double executionTimeSeconds = executionTime / 1000.0;
+        System.out.println("File was processed in " + executionTimeSeconds + " seconds.");
     }
 }
